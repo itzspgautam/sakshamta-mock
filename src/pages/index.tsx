@@ -5,12 +5,12 @@ import {
   Heading,
   Text,
   Button,
-  Link,
   HStack,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import NextLink from "next/link";
 import wideLogo from "@/assets/image/logo-wide.png";
+import Link from "next/link";
 
 const LandingPage = () => {
   return (
