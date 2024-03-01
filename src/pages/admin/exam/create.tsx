@@ -63,9 +63,6 @@ const ManageExam: React.FC = () => {
     );
   };
 
-  useEffect(() => {
-    console.log("question", question);
-  }, [setQuestion]);
 
   useEffect(() => {
     if (!admin) router.push("/admin");

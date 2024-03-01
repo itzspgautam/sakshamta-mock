@@ -21,7 +21,6 @@ const saveParticipationAPI = async (
 
   try {
     const {candidate} = req as any;
-    console.log("candiate id", candidate)
     const { exam, answers }: ParticipateInterface = req.body;
 
     // Validate incoming data

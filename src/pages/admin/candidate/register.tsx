@@ -107,7 +107,6 @@ const RegisterCandidate: React.FC = () => {
         signFormData,
         signConfig
       );
-      console.log(imageUpload, signUpload);
       const registerdata: any = {
         name,
         bsebUniqueid: username,

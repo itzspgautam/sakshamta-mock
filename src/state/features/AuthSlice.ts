@@ -43,7 +43,6 @@ export const candidateLogin = createAsyncThunk(
         password,
       });
 
-      console.log(data)
 
       return data;
     } catch (error: any) {
@@ -77,7 +76,6 @@ export const authSlice = createSlice({
         state.loading = false;
         
         state.error= action.payload as string;
-        console.log("OTP Request error:", action.payload);
       });
   },
 });

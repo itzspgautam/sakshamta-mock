@@ -34,7 +34,6 @@ const ExamList: React.FC = () => {
           },
         }
       );
-console.log(response?.data)
       setcandidates(response.data?.candidates);
     } catch (error: any) {
       let message = error?.response?.data?.message || error.message;

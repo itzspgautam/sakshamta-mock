@@ -87,7 +87,6 @@ export const submitAnswer = createAsyncThunk(
           },
         }
       );
-      console.log("Submitttttt", data);
 
       return data;
     } catch (error: any) {
@@ -179,7 +178,6 @@ export const CretaeExam = createAsyncThunk(
       );
 
       await dispatch(updateExamStatus("Uploaded"));
-      console.log(quesData);
       return quesData;
     } catch (error: any) {
       let message = error?.response?.data?.message || error.message;
@@ -247,7 +245,6 @@ export const examSlice = createSlice({
         state.participation = action.payload.participation;
       })
       .addCase(submitAnswer.rejected, (state, action) => {
-        console.log(action.payload);
         state.loading = false;
         state.error = action.payload as string;
         state.participation = null;
@@ -262,7 +259,6 @@ export const examSlice = createSlice({
         state.new.question = action.payload.questions;
       })
       .addCase(CretaeExam.rejected, (state, action) => {
-        console.log(action.payload);
         state.loading = false;
         state.error = action.payload as string;
         state.participation = null;

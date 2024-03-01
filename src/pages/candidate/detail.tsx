@@ -1,5 +1,5 @@
 // pages/index.tsx
-import { setLang } from "@/state/features/ExamSlice";
+import { fetchQuestions, setLang } from "@/state/features/ExamSlice";
 import { AppDispatch, RootState } from "@/state/store";
 import {
   Heading,
@@ -21,10 +21,13 @@ import {
 } from "@chakra-ui/react";
 import { color } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   const { loading, error, exam, questions, answers, language, participation } =
     useSelector((state: RootState) => state.Exam);
@@ -33,6 +36,18 @@ export default function Home() {
   const languageHandle = (e: any) => {
     dispatch(setLang(e.target.value));
   };
+
+  useEffect(() => {
+    if (!candidate) {
+      router.push("/candidate/login");
+      return;
+    }
+    if (exam && questions) {
+      return;
+    }
+    dispatch(fetchQuestions());
+  }, []);
+
 
   return (
     <div>

@@ -183,16 +183,7 @@ export default function Home() {
     }
   }, [participation]);
 
-  useEffect(() => {
-    if (!candidate) {
-      router.push("/candidate/login");
-      return;
-    }
-    if (exam && questions) {
-      return;
-    }
-    dispatch(fetchQuestions());
-  }, []);
+
 
   return (
     <Center height={"100vh"}>

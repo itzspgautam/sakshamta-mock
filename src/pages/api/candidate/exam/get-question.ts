@@ -45,7 +45,7 @@ const getquestions =  async function handler(
     }
 
 
-    const questions: QuestionInterface[] = await Question.find({ exam: isValidCandidate?.exam });
+    const questions: QuestionInterface[] = await Question.find({ exam: isValidCandidate?.exam }).select('-correctOption');
 
     res.status(200).json({ success: true,exam:isValidExam, questions, message:"Question fetched successfully!" });
   } catch (error: any) {

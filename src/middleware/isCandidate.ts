@@ -17,7 +17,6 @@ const isCandidate = (handler: (req: NextApiRequest, res: NextApiResponse) => Pro
     try {
       // Verify the token
       const decoded=await verifyCandidateJWT(token);
-      console.log(decoded);
       const candidate = await Candidate.findById(decoded.candidate);
 
 

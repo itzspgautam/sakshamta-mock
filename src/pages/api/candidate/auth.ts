@@ -7,6 +7,7 @@ import { CandidateInterface } from "@/interface/CandidateInterface";
 import moment from "moment";
 import Participate from "@/models/participate/ParticipateSchema";
 import Exam from "@/models/exam/ExamSchema";
+connectDB();
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,7 +16,6 @@ export default async function handler(
   if (req.method !== "POST") {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
-  await connectDB();
 
   const { username, password } = req.body;
 
@@ -48,7 +48,6 @@ export default async function handler(
       });
       const exam = await Exam.findById(isValidCandidate?.exam);
 
-      console.log(isAlreadySubmitted);
       if (isAlreadySubmitted) {
         participation = isAlreadySubmitted;
       }

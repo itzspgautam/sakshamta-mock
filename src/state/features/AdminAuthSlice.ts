@@ -6,7 +6,7 @@ import { AdminInterface } from "@/interface/AdminInterface";
 
 export interface AdminAuthState {
   admin: AdminInterface | null;
-  token:string | null;
+  token: string | null;
   error: string | null;
   loading: boolean;
 }
@@ -18,7 +18,7 @@ interface AdminLoginProps {
 
 const initialState: AdminAuthState = {
   admin: null,
-  token:null,
+  token: null,
   error: null,
   loading: false,
 };
@@ -34,17 +34,20 @@ export const adminLogin = createAsyncThunk(
         return rejectWithValue("email and password are required.");
       }
 
-      const { data } = await axios.post(`${AppConfig.API}/api/admin/auth/login`, {
-        email,
-        password,
-      });
+      const { data } = await axios.post(
+        `${AppConfig.API}/api/admin/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
 
-      console.log(data)
-
+    
       return data;
     } catch (error: any) {
-
-     let message =   error?.response?.data?.message ? error?.response?.data?.message:error.message;
+      let message = error?.response?.data?.message
+        ? error?.response?.data?.message
+        : error.message;
       return rejectWithValue(message);
     }
   }
@@ -58,20 +61,17 @@ export const authSlice = createSlice({
     builder
       .addCase(adminLogin.pending, (state) => {
         state.loading = true;
-        state.error= null;
-
+        state.error = null;
       })
       .addCase(adminLogin.fulfilled, (state, action) => {
         state.loading = false;
         state.admin = action.payload.admin;
-        state.token = action.payload.token
+        state.token = action.payload.token;
       })
       .addCase(adminLogin.rejected, (state, action) => {
-        state.admin=null;
+        state.admin = null;
         state.loading = false;
-        
-        state.error= action.payload as string;
-        console.log("OTP Request error:", action.payload);
+        state.error = action.payload as string;
       });
   },
 });

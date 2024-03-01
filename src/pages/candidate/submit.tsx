@@ -26,7 +26,6 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import sqLogo from "@/assets/image/sq-logo.png";
 
-
 export default function Home() {
   const router = useRouter();
 
@@ -53,7 +52,7 @@ export default function Home() {
         fontWeight="bold"
       >
         <GridItem area={"header"}>
-        <Center h="60px" bg="#606a74">
+          <Center h="60px" bg="#606a74">
             <Image
               alt="logo"
               src={sqLogo}
@@ -91,7 +90,7 @@ export default function Home() {
                 bgImage={"linear-gradient(#DADADA, #CCCCCC)"}
                 borderRadius={"16px 16px 0 0"}
               >
-               Answers Submitted!
+                Answers Submitted!
               </Center>
               <VStack px="10px" pt={"40px"} pb={"20px"} gap={"25px"}>
                 <HStack w="100%">
