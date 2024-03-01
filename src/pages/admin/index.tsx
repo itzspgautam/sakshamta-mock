@@ -32,7 +32,7 @@ const AdminLogin: React.FC = () => {
   );
 
   const handleLogin = () => {
-    dispatch(adminLogin({ email: "test@test.in", password: "111111" }));
+    dispatch(adminLogin({ email, password}));
   };
 
   const bgColor = useColorModeValue("gray.100", "gray.700");
