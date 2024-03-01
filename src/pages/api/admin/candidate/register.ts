@@ -12,40 +12,37 @@ const createcandidate = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-
-    const {admin} = req as any;
-    const {
-      name,
-      roll,
-      applicationNo,
-      bsebUniqueid,
-      dob,
-      photo,
-      sign,
-      exam
-    }: CandidateInterface = req.body;
+    const { admin } = req as any;
+    const { name, bsebUniqueid, dob, photo, sign, exam }: CandidateInterface =
+      req.body;
 
     // Validate incoming data
-    if (!name || !roll || !applicationNo || !bsebUniqueid || !dob || !photo || !sign || !exam) {
-      return res.status(400).json({ success: false, message: "All fields are required." });
+    if (!name || !bsebUniqueid || !dob || !photo || !sign || !exam) {
+      return res
+        .status(400)
+        .json({ success: false, message: "All fields are required." });
     }
 
     // Create a new candidate
     const newCandidate = new Candidate({
       name,
-      roll,
-      applicationNo,
       bsebUniqueid,
       dob,
       photo,
       sign,
-      createdBy:admin,
-      exam
+      createdBy: admin,
+      exam,
     });
 
     await newCandidate.save();
 
-    res.status(201).json({ success: true, candidate: newCandidate, message: "Candidate created successfully!" });
+    res
+      .status(201)
+      .json({
+        success: true,
+        candidate: newCandidate,
+        message: "Candidate created successfully!",
+      });
   } catch (error) {
     console.error("Error creating candidate:", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });

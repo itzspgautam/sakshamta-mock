@@ -4,6 +4,9 @@ import Admin from "@/models/AdminSchema";
 import { generateAdminJWT, generateCandidateJWT } from "@/utils/jwtUtils";
 import Candidate from "@/models/candidate/candidateSchema";
 import { CandidateInterface } from "@/interface/CandidateInterface";
+import moment from "moment";
+import Participate from "@/models/participate/ParticipateSchema";
+import Exam from "@/models/exam/ExamSchema";
 connectDB();
 
 export default async function handler(
@@ -17,32 +20,52 @@ export default async function handler(
   const { username, password } = req.body;
 
   if (!username || !password) {
-    return res.status(405).json({ message: "username and password is required." });
+    return res
+      .status(405)
+      .json({ message: "username and password is required." });
   }
 
   try {
-    let isMatch=false;
-    const isValidCandidate:CandidateInterface = await Candidate.findOne({ applicationNo:username }) as CandidateInterface;
-    // if(isValidCandidate){
-    //     return true
-    // }
+    let isMatch = false;
 
-    
+    const isValidCandidate: CandidateInterface = (await Candidate.findOne({
+      bsebUniqueid: username,
+    })) as CandidateInterface;
     if (isValidCandidate) {
+      const dobToPassword = moment(isValidCandidate?.dob).format("DDMMYYYY");
+      if (dobToPassword === password) {
+        isMatch = true;
+      }
+    }
+
+    if (isValidCandidate && isMatch) {
       const jwToken = await generateCandidateJWT(isValidCandidate);
-      res
-        .status(200)
-        .json({
-          sucess: true,
-          candidate: isValidCandidate,
-          token: jwToken,
-          message: "Logged in sucessfully!",
-        });
+
+      let participation = null;
+      const isAlreadySubmitted = await Participate.findOne({
+        candidate: isValidCandidate?._id,
+        exam: isValidCandidate?.exam,
+      });
+      const exam = await Exam.findById(isValidCandidate?.exam);
+
+      console.log(isAlreadySubmitted);
+      if (isAlreadySubmitted) {
+        participation = isAlreadySubmitted;
+      }
+
+      res.status(200).json({
+        sucess: true,
+        candidate: isValidCandidate,
+        token: jwToken,
+        participation,
+        exam,
+        message: "Logged in sucessfully!",
+      });
       return;
     }
 
     res
-      .status(200)
+      .status(401)
       .json({ sucess: false, message: "username and password is invalid!" });
     return;
   } catch (error: any) {

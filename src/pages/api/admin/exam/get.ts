@@ -3,6 +3,7 @@ import connectDB from "@/config/database";
 import { ExamInterface } from "@/interface/ExamInterface";
 import Exam from "@/models/exam/ExamSchema";
 import isAdmin from "@/middleware/isAdmin";
+import Question from "@/models/exam/QuestionSchema";
 
 connectDB();
 
@@ -15,34 +16,30 @@ const createExam = async function handler(
   }
 
   const { admin } = req as any;
-  const { title, duration, venue, examDate } = req.body;
-  if (!title || !duration || !venue) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        message: "Title, duration and venue are required.",
-      });
+  const { exam } = req.body;
+
+  if (!exam) {
+    return res.status(400).json({
+      success: false,
+      message: "Exam is required.",
+    });
   }
 
   try {
-    const newExam: ExamInterface = new Exam({
-      title,
-      duration,
-      venue,
-      examDate,
-      createdBy: admin,
+    const GetExam = await Exam.findById(exam);
+    if (!GetExam) {
+        return res.status(400).json({
+            success: false,
+            message: "Exam is invalid.",
+          });
+    }
+    const questions = await Question.find({exam:GetExam?._id})
+    res.status(201).json({
+      success: true,
+      exam: GetExam,
+      questions,
+      message: "Exam Fetched successfully!",
     });
-
-    await newExam.save();
-
-    res
-      .status(201)
-      .json({
-        success: true,
-        exam: newExam,
-        message: "Exam created successfully!",
-      });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

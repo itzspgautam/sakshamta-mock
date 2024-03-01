@@ -1,6 +1,6 @@
 import { AdminInterface } from "@/interface/AdminInterface";
 import mongoose, { Document, Schema, Model, AnyArray } from "mongoose";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt'
 
 let Admin: Model<AdminInterface>;
 

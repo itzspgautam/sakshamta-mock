@@ -5,6 +5,7 @@ import Question from "@/models/exam/QuestionSchema";
 import isCandidate from "@/middleware/isCandidate";
 import Candidate from "@/models/candidate/candidateSchema";
 import Participate from "@/models/participate/ParticipateSchema";
+import Exam from "@/models/exam/ExamSchema";
 
 connectDB();
 
@@ -12,7 +13,7 @@ const getquestions =  async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method !== "GET") {
+  if (req.method !== "POST") {
     return res.status(405).json({success:false, message: "Method Not Allowed" });
   }
 
@@ -27,6 +28,14 @@ const getquestions =  async function handler(
       .json({ success: false, message: "Candidate not found." });
     }
 
+        //check if already partici[pated or not
+        const isValidExam = await Exam.findById(isValidCandidate?.exam);
+        if (!isValidExam) {
+          return res
+            .status(400)
+            .json({ success: false, message: "Exam code is invalid." });
+        }
+
     //check if already partici[pated or not
     const isAlreadySubmitted = await Participate.findOne({candidate:isValidCandidate?._id, exam:isValidCandidate?.exam });
     if (isAlreadySubmitted) {
@@ -38,7 +47,7 @@ const getquestions =  async function handler(
 
     const questions: QuestionInterface[] = await Question.find({ exam: isValidCandidate?.exam });
 
-    res.status(200).json({ success: true, data: questions, message:"Question fetched successfully!" });
+    res.status(200).json({ success: true,exam:isValidExam, questions, message:"Question fetched successfully!" });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

@@ -6,24 +6,14 @@ let Candidate: Model<CandidateInterface>;
 
 if (!mongoose.models.Candidate) {
   const CandidateSchema = new Schema<CandidateInterface>({
-
     name: {
       type: String,
       required: true,
     },
-    roll: {
-      type: String,
-      required: true,
-    },
-
-    applicationNo: {
-      type: String,
-      required: true,
-    },
-
     bsebUniqueid: {
       type: String,
       required: true,
+      unique: true,
     },
 
     dob: {
@@ -38,16 +28,16 @@ if (!mongoose.models.Candidate) {
       type: String,
       required: true,
     },
-    createdBy:{
-      type:mongoose.Schema.ObjectId,
-      ref:'admin',
-      required:true
+    createdBy: {
+      type: mongoose.Schema.ObjectId,
+      ref: "admin",
+      required: true,
     },
-    exam:{
-      type:mongoose.Schema.ObjectId,
-      ref:'exam',
-      required:true
-    }
+    exam: {
+      type: mongoose.Schema.ObjectId,
+      ref: "exam",
+      required: true,
+    },
   });
 
   Candidate = mongoose.model<CandidateInterface>("Candidate", CandidateSchema);

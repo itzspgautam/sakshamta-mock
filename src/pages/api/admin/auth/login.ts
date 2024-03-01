@@ -40,7 +40,7 @@ export default async function handler(
     }
 
     res
-      .status(200)
+      .status(401)
       .json({ sucess: false, message: "Email and password is invalid!" });
     return;
   } catch (error: any) {

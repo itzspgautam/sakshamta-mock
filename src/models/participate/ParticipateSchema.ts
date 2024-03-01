@@ -7,12 +7,12 @@ let Participate: Model<ParticipateInterface>;
 if (!mongoose.models.Participate) {
   const ParticipateSchema = new Schema<ParticipateInterface>({
     exam: {
-      type: mongoose.Schema.ObjectId,
+      type:Schema.Types.ObjectId,
       ref: "exam",
       required: true,
     },
     candidate: {
-      type: String,
+      type: Schema.Types.ObjectId,
       ref: "candidate",
       required: true,
     },

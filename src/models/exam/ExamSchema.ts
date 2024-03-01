@@ -18,11 +18,15 @@ if (!mongoose.models.Exam) {
       type: Number,
       required: true,
     },
-    createdBy:{
-      type:mongoose.Schema.ObjectId,
-      ref:'admin',
-      required:true
-    }
+    examDate: {
+      type: Date,
+      required: true,
+    },
+    createdBy: {
+      type: mongoose.Schema.ObjectId,
+      ref: "admin",
+      required: true,
+    },
   });
 
   Exam = mongoose.model<ExamInterface>("Exam", ExamSchema);

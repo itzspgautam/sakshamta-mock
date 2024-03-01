@@ -9,7 +9,7 @@ export const generateAdminJWT = (admin: AdminInterface): Promise<string> => {
         { admin: admin?._id },
         process.env.JWT_SECRET as string,
         { expiresIn: "60d" },
-        (err:any, token:string) => {
+        (err: Error | null, token: string | undefined) => {
           if (err) {
             reject(err);
           } else {
@@ -25,7 +25,7 @@ export const generateAdminJWT = (admin: AdminInterface): Promise<string> => {
 
 export const verifyAdminJWT = (token: string): Promise<JwtPayload> => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.JWT_SECRET as string, (err:any, decoded:any) => {
+    jwt.verify(token, process.env.JWT_SECRET as string, (err: any, decoded: any) => {
       if (err) {
         reject(err);
       } else {
@@ -35,19 +35,17 @@ export const verifyAdminJWT = (token: string): Promise<JwtPayload> => {
   });
 };
 
-export const destroyToken = (token: string): Promise<JwtPayload> => {
+export const destroyToken = (token: string): Promise<void> => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.JWT_SECRET as string, (err:any, decoded:any) => {
+    jwt.verify(token, process.env.JWT_SECRET as string, (err: jwt.JsonWebTokenError | null) => {
       if (err) {
         reject(err);
       } else {
-        resolve(decoded as JwtPayload);
+        resolve();
       }
     });
   });
 };
-
-
 
 export const generateCandidateJWT = (candidate: CandidateInterface): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -56,7 +54,7 @@ export const generateCandidateJWT = (candidate: CandidateInterface): Promise<str
         { candidate: candidate?._id },
         process.env.JWT_SECRET as string,
         { expiresIn: "60d" },
-        (err:any, token:string) => {
+        (err: Error | null, token: string | undefined) => {
           if (err) {
             reject(err);
           } else {
@@ -72,7 +70,7 @@ export const generateCandidateJWT = (candidate: CandidateInterface): Promise<str
 
 export const verifyCandidateJWT = (token: string): Promise<JwtPayload> => {
   return new Promise((resolve, reject) => {
-    jwt.verify(token, process.env.JWT_SECRET as string, (err:any, decoded:any) => {
+    jwt.verify(token, process.env.JWT_SECRET as string, (err: any, decoded: any) => {
       if (err) {
         reject(err);
       } else {
