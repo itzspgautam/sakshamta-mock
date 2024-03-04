@@ -183,8 +183,6 @@ export default function Home() {
     }
   }, [participation]);
 
-
-
   return (
     <Center height={"100vh"}>
       {loading ? (
@@ -203,9 +201,13 @@ export default function Home() {
           fontWeight="bold"
         >
           <GridItem area={"header"}>
-          <Center h="60px" bg="#606a74">
-            <Image alt="logo" src={sqLogo} style={{height:"50px", width:'50px', borderRadius:"50%"}}/>
-          </Center>
+            <Center h="60px" bg="#606a74">
+              <Image
+                alt="logo"
+                src={sqLogo}
+                style={{ height: "50px", width: "50px", borderRadius: "50%" }}
+              />
+            </Center>
             <Box
               h="15px"
               bg="#D8D8D8"
@@ -223,7 +225,7 @@ export default function Home() {
                   h="100%"
                 >
                   <Text fontSize={14} color={"black"}>
-                   {exam?.title}
+                    {exam?.title}
                   </Text>
                   <HStack>
                     <Text fontSize={14} color={"black"}>
@@ -354,52 +356,52 @@ export default function Home() {
                   borderRadius={"15px 15px 0 0"}
                   overflow={"hidden"}
                 >
-                  
-                    <HStack p={3} bg={"#BBD42D"} w="100%">
-                      <VStack>
-                        <Box bg="white" aspectRatio={4/5} >
-                         <Image src={candidate?.photo} width={100} height={100} style={{height:"100%", width:"100%"}} alt="photo"/>
-                        </Box>
-                        <Box bg="white" aspectRatio={1/2} width={"120px"} h="40px">
-                        <Image src={candidate?.sign} width={100} height={100} style={{height:"100%", width:"100%"}} alt="photo"/>
-                        </Box>
+                  <HStack p={3} bg={"#BBD42D"} w="100%">
+                    <VStack>
+                      <Box bg="white" aspectRatio={4 / 5}>
+                        <Image
+                          src={candidate?.photo}
+                          width={100}
+                          height={100}
+                          style={{ height: "100%", width: "100%" }}
+                          alt="photo"
+                        />
+                      </Box>
+                      <Box
+                        bg="white"
+                        aspectRatio={1 / 2}
+                        width={"120px"}
+                        h="40px"
+                      >
+                        <Image
+                          src={candidate?.sign}
+                          width={100}
+                          height={100}
+                          style={{ height: "100%", width: "100%" }}
+                          alt="photo"
+                        />
+                      </Box>
+                    </VStack>
+                    <VStack width={"100%"} height={"full"}>
+                      <VStack width={"100%"} alignItems={"flex-start"} gap={0}>
+                        <Text fontSize={12} color={"grey"} fontWeight={"light"}>
+                          Name
+                        </Text>
+                        <Text fontSize={14} color={"black"} fontWeight={"bold"}>
+                          {candidate?.bsebUniqueid}
+                        </Text>
                       </VStack>
-                      <VStack  width={"100%"} height={"full"} >
-                        <VStack width={"100%"}  alignItems={"flex-start"} gap={0}> 
-                          <Text
-                            fontSize={12}
-                            color={"grey"}
-                            fontWeight={"light"}
-                          >
-                            Name
-                          </Text>
-                          <Text
-                            fontSize={14}
-                            color={"black"}
-                            fontWeight={"bold"}
-                          >
-                            {candidate?.bsebUniqueid}
-                          </Text>
-                        </VStack>
-                        <VStack width={"100%"}  alignItems={"flex-start"} gap={0}> 
-                          <Text
-                            fontSize={12}
-                            color={"grey"}
-                            fontWeight={"light"}
-                          >
-                            Candidate Name
-                          </Text>
-                          <Text
-                            fontSize={14}
-                            color={"black"}
-                            fontWeight={"bold"}
-                          >
-                            {candidate?.name}
-                          </Text>
-                        </VStack>
+                      <VStack width={"100%"} alignItems={"flex-start"} gap={0}>
+                        <Text fontSize={12} color={"grey"} fontWeight={"light"}>
+                          Candidate Name
+                        </Text>
+                        <Text fontSize={14} color={"black"} fontWeight={"bold"}>
+                          {candidate?.name}
+                        </Text>
                       </VStack>
-                    </HStack>
-                  
+                    </VStack>
+                  </HStack>
+
                   <Box
                     bg={"#D9D9D9"}
                     flex={1}
@@ -411,7 +413,7 @@ export default function Home() {
                     <Text fontSize={14} color={"black"} fontWeight={"light"}>
                       Number of questions
                     </Text>
-                    <Box overflowY="auto" h="190" flexWrap="wrap" >
+                    <Box overflowY="auto" h="190" flexWrap="wrap">
                       {questions?.map((q, i) => (
                         <span
                           onClick={() => {
