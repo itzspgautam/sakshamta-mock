@@ -55,7 +55,7 @@ export default function Home() {
   });
 
   const [questionZoom, setQuestionZoom] = useState(14);
-  const [timeleft, setTimeLeft] = useState<Date>();
+  const [timer, setTimer] = useState<Date>();
 
   const selectOptionHandle = async (selectedOption: any) => {
     await setActiveQAnswer({
@@ -152,12 +152,9 @@ export default function Home() {
     return color;
   };
 
-  const updateAnswerHandle = async () => {
-    await dispatch(updateAnswer(activeQAnswer));
-  };
   useEffect(() => {
     //update state answer on change of option
-    updateAnswerHandle();
+    dispatch(updateAnswer(activeQAnswer));
   }, [activeQAnswer]);
 
   useEffect(() => {
@@ -172,14 +169,20 @@ export default function Home() {
     //open first question on load
     if (exam && questions) {
       setActiveQuestion(questions[0]);
-
       if (exam && exam.duration) {
         const time = new Date();
         time.setSeconds(time.getSeconds() + 60 * exam.duration);
-        setTimeLeft(time);
+        setTimer(time);
       }
     }
   }, [questions]);
+
+  useEffect(() => {
+    if (!candidate) {
+      router.push("/candidate/login");
+      return;
+    }
+  }, []);
 
   useEffect(() => {
     //open first question on load
@@ -188,6 +191,13 @@ export default function Home() {
       return;
     }
   }, [participation]);
+
+  useEffect(() => {
+    if (!candidate) {
+      router.push("/candidate/login");
+      return;
+    }
+  }, []);
 
   return (
     <Center height={"100vh"}>
@@ -213,7 +223,6 @@ export default function Home() {
                 src={sqLogo}
                 style={{ height: "50px", width: "50px", borderRadius: "50%" }}
               />
-              <Button onClick={updateAnswerHandle}></Button>
             </Center>
             <Box
               h="15px"
@@ -261,7 +270,7 @@ export default function Home() {
                     <Center h="100%" bg="#606A74" px={2}>
                       <Text fontSize={14} color={"white"}>
                         <MyTimer
-                          expiryTimestamp={timeleft}
+                          expiryTimestamp={timer}
                           submitHandle={submitHandle}
                         />
                       </Text>
@@ -520,7 +529,7 @@ export default function Home() {
                       <span>
                         You have{" "}
                         <b>
-                          <MyTimer expiryTimestamp={timeleft} />
+                          <MyTimer expiryTimestamp={timer} />
                         </b>{" "}
                         to answer{" "}
                         <b>

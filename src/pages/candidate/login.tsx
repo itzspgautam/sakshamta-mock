@@ -165,7 +165,7 @@ export default function Home() {
                   >
                     Submit
                   </Button>
-                  <Link href={"/candidate/welcome"}>
+                  <Link href={"./"}>
                     <Button
                       colorScheme={"yellow"}
                       size={"sm"}

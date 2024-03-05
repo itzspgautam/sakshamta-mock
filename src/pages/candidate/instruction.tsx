@@ -26,11 +26,21 @@ import hinIns from "@/assets/image/hindi-ins.jpeg";
 import engIns from "@/assets/image/eng-ins.jpeg";
 import { useSelector } from "react-redux";
 import { RootState } from "@/state/store";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Home() {
-
+  const router = useRouter();
   const { loading, error, exam, questions, answers, language, participation } =
-  useSelector((state: RootState) => state.Exam);
+    useSelector((state: RootState) => state.Exam);
+  const { candidate } = useSelector((state: RootState) => state.Auth);
+
+  useEffect(() => {
+    if (!candidate) {
+      router.push("/candidate/login");
+      return;
+    }
+  }, []);
 
   return (
     <div>
@@ -86,9 +96,20 @@ export default function Home() {
               >
                 Candidate Instructions
               </Center>
-              <Box justifyContent={"flex-end"} h="76%" overflow={"scroll"} bg={"#EFEFEF"}>
+              <Box
+                justifyContent={"flex-end"}
+                h="76%"
+                overflow={"scroll"}
+                bg={"#EFEFEF"}
+              >
                 <Image
-                  src={language==='Hindi'? hinIns:language==='English'?engIns:hinIns}
+                  src={
+                    language === "Hindi"
+                      ? hinIns
+                      : language === "English"
+                      ? engIns
+                      : hinIns
+                  }
                   alt="Hindi Instruction"
                   style={{ width: "100%" }}
                 />
@@ -106,9 +127,6 @@ export default function Home() {
                   </Button>
                 </Link>
               </Center>
-
-
-  
             </Box>
           </Container>
         </GridItem>
