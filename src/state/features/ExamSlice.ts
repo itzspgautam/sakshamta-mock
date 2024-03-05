@@ -26,7 +26,7 @@ export interface newExamInterface {
 }
 
 export interface CreateExamprop {
-  newExam: { title: string; venue: string; duration: number,examDate:Date };
+  newExam: { title: string; venue: string; duration: number; examDate: Date };
   question: QuestionInterface[];
 }
 
@@ -146,9 +146,11 @@ export const CretaeExam = createAsyncThunk(
         throw new Error("Please upload excel sheet");
         return;
       }
-      const { title, venue, duration,examDate } = newExam;
+      const { title, venue, duration, examDate } = newExam;
       if (!title || !venue || !duration || !examDate) {
-        throw new Error("Title, Venue, date of exam and duration are required!");
+        throw new Error(
+          "Title, Venue, date of exam and duration are required!"
+        );
         return;
       }
       await dispatch(updateExamStatus("Creating Exam Instance..."));
@@ -266,5 +268,5 @@ export const examSlice = createSlice({
   },
 });
 
-export const { setLang, updateExamStatus,clearNewExam } = examSlice.actions;
+export const { setLang, updateExamStatus, clearNewExam } = examSlice.actions;
 export default examSlice.reducer;
