@@ -193,10 +193,12 @@ export default function Home() {
         <Spinner></Spinner>
       ) : (
         <Grid
-          templateAreas={`"header"
+          templateAreas={[
+            `"header"
                  "info"
                   "main"
-                  "footer"`}
+                  "footer"`,
+          ]}
           gridTemplateRows={"75px 30px 1fr 50px"}
           gridTemplateColumns={"1fr"}
           h="100vh"

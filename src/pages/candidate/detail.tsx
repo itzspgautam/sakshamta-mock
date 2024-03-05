@@ -20,10 +20,12 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { color } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import sqLogo from "@/assets/image/sq-logo.png";
 
 export default function Home() {
   const dispatch = useDispatch<AppDispatch>();
@@ -48,7 +50,6 @@ export default function Home() {
     dispatch(fetchQuestions());
   }, []);
 
-
   return (
     <div>
       <Grid
@@ -62,7 +63,13 @@ export default function Home() {
         fontWeight="bold"
       >
         <GridItem area={"header"}>
-          <Box h="60px" bg="#606a74"></Box>
+          <Center h="60px" bg="#606a74">
+            <Image
+              alt="logo"
+              src={sqLogo}
+              style={{ height: "50px", width: "50px", borderRadius: "50%" }}
+            />
+          </Center>
           <Box
             h="15px"
             bg="#D8D8D8"
@@ -84,7 +91,7 @@ export default function Home() {
               border={"4px solid #CCCCCC"}
               overflow={"hidden"}
               p={"0.5"}
-              mx={5}
+              mx={1}
             >
               <Center
                 h={"70px"}
@@ -96,7 +103,12 @@ export default function Home() {
               >
                 Candidate Detail
               </Center>
-              <VStack px="80px" pt={"40px"} pb={"20px"} gap={"25px"}>
+              <VStack
+                px={["10px", "80px"]}
+                pt={"40px"}
+                pb={"20px"}
+                gap={"25px"}
+              >
                 <HStack w="100%">
                   <Text
                     fontSize={12}
@@ -219,7 +231,7 @@ export default function Home() {
                     textAlign={"left"}
                     flex={1}
                   >
-                   <select onChange={languageHandle}>
+                    <select onChange={languageHandle}>
                       <option
                         value="Hindi"
                         selected={language === "Hindi" ? true : false}

@@ -95,7 +95,7 @@ export default function Home() {
               border={"4px solid #CCCCCC"}
               overflow={"hidden"}
               p={"0.5"}
-              mx={5}
+              mx={1}
             >
               <Center
                 h={"70px"}
@@ -107,7 +107,12 @@ export default function Home() {
               >
                 Candidate Login
               </Center>
-              <VStack px="80px" pt={"30px"} pb={"20px"} gap={"10px"}>
+              <VStack
+                px={["10px", "80px"]}
+                pt={"30px"}
+                pb={"20px"}
+                gap={"10px"}
+              >
                 <Text
                   visibility={error ? "visible" : "hidden"}
                   fontSize={"12px"}

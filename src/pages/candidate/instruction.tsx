@@ -83,7 +83,7 @@ export default function Home() {
               border={"4px solid #CCCCCC"}
               overflow={"hidden"}
               p={"0.5"}
-              mx={5}
+              mx={1}
               h={"85vh"}
             >
               <Center
