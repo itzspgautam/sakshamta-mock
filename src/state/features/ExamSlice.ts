@@ -96,41 +96,6 @@ export const submitAnswer = createAsyncThunk(
   }
 );
 
-export const updateAnswer = createAsyncThunk(
-  "exam/updateAnswer",
-  async (updateProps: AnswerInterface, { rejectWithValue, getState }) => {
-    try {
-      const state = getState() as RootState;
-      const answersList = state.Exam.answers;
-
-      if (!answersList) {
-        throw new Error("Answers list is not available.");
-      }
-
-      const indexToUpdate = answersList.findIndex(
-        (item) => item?.question === updateProps?.question
-      );
-
-      if (indexToUpdate !== -1) {
-        const updatedAnswersList = [...answersList];
-        updatedAnswersList[indexToUpdate] = {
-          ...updatedAnswersList[indexToUpdate],
-          status: updateProps.status,
-          answer: updateProps.answer,
-        } as any;
-
-        return updatedAnswersList;
-      } else {
-        throw new Error("Index not found.");
-      }
-    } catch (error: any) {
-      console.error(error);
-      let message = error?.response?.data?.message || error.message;
-      return rejectWithValue(message);
-    }
-  }
-);
-
 export const CretaeExam = createAsyncThunk(
   "exam/admin/create-exam",
   async (
@@ -201,6 +166,38 @@ export const examSlice = createSlice({
     clearNewExam: (state) => {
       state.new = initialState.new as any;
     },
+    updateExamAnswer: (state, action: PayloadAction<AnswerInterface>) => {
+      try {
+        const { payload } = action;
+        const answersList = state.answers;
+
+        if (!answersList) {
+          throw new Error("Answers list is not available.");
+        }
+
+        const indexToUpdate = answersList.findIndex(
+          (item) => item?.question === payload?.question
+        );
+
+        if (indexToUpdate !== -1) {
+          const updatedAnswersList = [...answersList];
+          updatedAnswersList[indexToUpdate] = {
+            ...updatedAnswersList[indexToUpdate],
+            status: payload.status,
+            answer: payload.answer,
+          };
+
+          state.answers = updatedAnswersList;
+          state.error = null;
+        } else {
+          throw new Error("Index not found.");
+        }
+      } catch (error: any) {
+        console.error(error);
+        let message = error?.response?.data?.message || error.message;
+        state.error = message;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -222,19 +219,6 @@ export const examSlice = createSlice({
         );
       })
       .addCase(fetchQuestions.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      })
-
-      .addCase(updateAnswer.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(updateAnswer.fulfilled, (state, action) => {
-        state.loading = false;
-        state.answers = action.payload as any;
-      })
-      .addCase(updateAnswer.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
@@ -268,5 +252,6 @@ export const examSlice = createSlice({
   },
 });
 
-export const { setLang, updateExamStatus, clearNewExam } = examSlice.actions;
+export const { setLang, updateExamStatus, clearNewExam, updateExamAnswer } =
+  examSlice.actions;
 export default examSlice.reducer;

@@ -31,10 +31,9 @@ import {
   fetchQuestions,
   setLang,
   submitAnswer,
-  updateAnswer,
+  updateExamAnswer,
 } from "@/state/features/ExamSlice";
 import { AnswerInterface, QuestionInterface } from "@/interface/ExamInterface";
-import { useTimer } from "react-timer-hook";
 import { MyTimer } from "@/component/Timer";
 import { MyModal } from "@/component/Modal";
 import sqLogo from "@/assets/image/sq-logo.png";
@@ -154,7 +153,7 @@ export default function Home() {
 
   useEffect(() => {
     //update state answer on change of option
-    dispatch(updateAnswer(activeQAnswer));
+    dispatch(updateExamAnswer(activeQAnswer));
   }, [activeQAnswer]);
 
   useEffect(() => {
@@ -167,25 +166,6 @@ export default function Home() {
 
   useEffect(() => {
     //open first question on load
-    if (exam && questions) {
-      setActiveQuestion(questions[0]);
-      if (exam && exam.duration) {
-        const time = new Date();
-        time.setSeconds(time.getSeconds() + 60 * exam.duration);
-        setTimer(time);
-      }
-    }
-  }, [questions]);
-
-  useEffect(() => {
-    if (!candidate) {
-      router.push("/candidate/login");
-      return;
-    }
-  }, []);
-
-  useEffect(() => {
-    //open first question on load
     if (participation) {
       router.push("/candidate/submit");
       return;
@@ -193,9 +173,17 @@ export default function Home() {
   }, [participation]);
 
   useEffect(() => {
+    console.log("called");
     if (!candidate) {
       router.push("/candidate/login");
       return;
+    }
+    if (exam && questions) {
+      setActiveQuestion(questions[0]);
+
+      let time = new Date();
+      time.setSeconds(time.getSeconds() + 60 * exam.duration);
+      setTimer(time);
     }
   }, []);
 
@@ -269,10 +257,12 @@ export default function Home() {
                     </Text>
                     <Center h="100%" bg="#606A74" px={2}>
                       <Text fontSize={14} color={"white"}>
-                        <MyTimer
-                          expiryTimestamp={timer}
-                          submitHandle={submitHandle}
-                        />
+                        {timer && (
+                          <MyTimer
+                            expiryTimestamp={timer}
+                            submitHandle={submitHandle}
+                          />
+                        )}
                       </Text>
                     </Center>
                   </HStack>
@@ -528,10 +518,8 @@ export default function Home() {
                     message={
                       <span>
                         You have{" "}
-                        <b>
-                          <MyTimer expiryTimestamp={timer} />
-                        </b>{" "}
-                        to answer{" "}
+                        <b>{timer && <MyTimer expiryTimestamp={timer} />}</b> to
+                        answer{" "}
                         <b>
                           {answers?.filter((a) => a?.status === "UNATT").length}{" "}
                           Un-Answered Question
