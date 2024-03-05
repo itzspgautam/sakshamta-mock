@@ -57,15 +57,27 @@ export default function Home() {
   const [timer, setTimer] = useState<Date>();
 
   const selectOptionHandle = async (selectedOption: any) => {
+    let status =
+      activeQAnswer?.status === "TAG" || activeQAnswer?.status === "TAGATT"
+        ? "TAGATT"
+        : "ATT";
     await setActiveQAnswer({
       question: activeQuestion?._id,
-      status: "ATT",
+      status,
       answer: selectedOption,
     });
   };
 
   const tagHandle = async () => {
     let status = activeQAnswer?.answer === null ? "TAG" : "TAGATT";
+    await setActiveQAnswer({
+      question: activeQuestion?._id,
+      status,
+      answer: activeQAnswer?.answer,
+    });
+  };
+  const detagHandle = async () => {
+    let status = activeQAnswer?.answer === null ? "UNATT" : "ATT";
     await setActiveQAnswer({
       question: activeQuestion?._id,
       status,
@@ -393,7 +405,7 @@ export default function Home() {
                     <VStack width={"100%"} height={"full"}>
                       <VStack width={"100%"} alignItems={"flex-start"} gap={0}>
                         <Text fontSize={12} color={"grey"} fontWeight={"light"}>
-                          Name
+                          Username
                         </Text>
                         <Text fontSize={14} color={"black"} fontWeight={"bold"}>
                           {candidate?.bsebUniqueid}
@@ -497,13 +509,21 @@ export default function Home() {
 
                   <HStack gap={5}>
                     <Button
-                      onClick={tagHandle}
+                      onClick={
+                        activeQAnswer?.status === "TAG" ||
+                        activeQAnswer?.status === "TAGATT"
+                          ? detagHandle
+                          : tagHandle
+                      }
                       colorScheme={"yellow"}
                       size={"sm"}
                       fontWeight={"regular"}
                       px="6"
                     >
-                      Tag
+                      {activeQAnswer?.status === "TAG" ||
+                      activeQAnswer?.status === "TAGATT"
+                        ? "DETAG"
+                        : "TAG"}
                     </Button>
                     <Button
                       colorScheme={"red"}
